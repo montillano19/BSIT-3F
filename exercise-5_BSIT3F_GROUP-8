@@ -69,3 +69,43 @@
 
 </body>
 </html>
+
+                      next code
+
+<?php
+// Initialize response structure
+$response = [
+    'success' => true,
+    'errors' => []
+];
+
+// Validate Username
+if (empty($_POST['username'])) {
+    $response['success'] = false;
+    $response['errors']['username'] = 'Username is required';
+} elseif (strlen($_POST['username']) < 3) {
+    $response['success'] = false;
+    $response['errors']['username'] = 'Username must be at least 3 characters long';
+}
+
+// Validate Email
+if (empty($_POST['email'])) {
+    $response['success'] = false;
+    $response['errors']['email'] = 'Email is required';
+} elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+    $response['success'] = false;
+    $response['errors']['email'] = 'Invalid email format';
+}
+
+// Simulate custom validation (e.g., check if username is "admin")
+if ($_POST['username'] === 'admin') {
+    $response['success'] = false;
+    $response['errors']['username'] = 'Username "admin" is not allowed';
+}
+
+// Return the response as JSON
+header('Content-Type: application/json');
+echo json_encode($response);
+
+
+
